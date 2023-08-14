@@ -28,7 +28,9 @@ async function addItem(event) {
       obj,
       { headers: { Authorization: token } }
     );
-    showOnScreen(response.data.newexpense);
+    const newExpense = response.data.newexpense[0];
+    console.log("New Expense:", newExpense);
+    showOnScreen(newExpense);
     document.getElementById("amount").value='';
     document.getElementById("etype").value='';
     document.getElementById("date").value='';

@@ -28,8 +28,8 @@ const premiumRoute = require('./routes/preminumRoute');
 const leaderboardRoute = require('./routes/leaderboardRoute');
 const getForgetPasswordRoute = require('./routes/getForgetPasswordRoute');
 const postForgetPasswordRoute = require('./routes/postForgetPassword');
- const getResetPasswordRoute = require('./routes/getResetPasswordRoute');
-// const downloadfileRoute = require ('./routes/downloadfileRoute');
+const getResetPasswordRoute = require('./routes/getResetPasswordRoute');
+const downloadfileRoute = require ('./routes/downloadfileRoute');
 
 
 app.use(bodyParser.urlencoded({extended: false}));
@@ -51,7 +51,7 @@ app.use(leaderboardRoute);
 app.use(getForgetPasswordRoute);
 app.use(postForgetPasswordRoute);
 app.use(getResetPasswordRoute);
-//app.use(downloadfileRoute)
+app.use(downloadfileRoute)
 
 
 
@@ -61,6 +61,5 @@ mongoose.connect('mongodb+srv://Indrani:qRLvJFGJajhvtADB@cluster0.xnm1zxm.mongod
 })
 .catch((err)=> console.error(err));
 
-//app.listen(4000);
 
 

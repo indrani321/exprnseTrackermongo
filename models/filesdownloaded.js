@@ -5,6 +5,11 @@ const filesDownloadedSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
 });
 
 const FilesDownloaded = mongoose.model('FilesDownloaded', filesDownloadedSchema);

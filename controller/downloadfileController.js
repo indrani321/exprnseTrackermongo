@@ -4,34 +4,36 @@ const Expense = require("../models/expense");
 const User = require("../models/user");
 const FilesDownload = require("../models/filesdownloaded");
 
-async function download(req, res) {
+exports.download = async (req, res) => {
     try {
-        const expenses = await Expense.find({ userId: req.user.id });
-        const strinfiyExpenses = JSON.stringify(expenses);
-        const userId = req.user.id;
-        const filename = `expenses${userId}/${new Date()}.txt`;
-        const fileUrl = await S3Services.uploadToS3(strinfiyExpenses, filename);
-        await FilesDownload.create({
-            filelink: fileUrl,
-            userId,
-        });
-        res.status(200).json({ fileUrl, success: true });
+      const expenses = await Expense.find({ userId: req.user.id });
+      const strinfiyExpenses = JSON.stringify(expenses);
+      const userId = req.user.id;
+      const filename = `expenses${userId}/${new Date()}.txt`;
+      const fileUrl = await S3Services.uploadToS3(strinfiyExpenses, filename);
+      const filesDownload = new FilesDownload({
+        filelink: fileUrl,
+        userId,
+      });
+      await filesDownload.save();
+      res.status(200).json({ fileUrl, success: true });
     } catch (err) {
-        res.status(500).json({ fileUrl: "", success: false });
+      res.status(500).json({ fileUrl: "" });
     }
-}
+  };
 
-async function downloadLinks(req, res) {
+exports.downloadLinks = async (req, res) => {
     try {
-        const links = await FilesDownload.find({ userId: req.user.id });
-        res.status(200).json({ success: true, links });
+      const url = await FilesDownload.find({ userId: req.user._id });
+      res.status(200).json({ success: "true", url });
     } catch (err) {
-        console.log(err);
-        res.status(500).json({ success: false, error: err });
+      console.log(err);
+      res.status(500).json({ success: "false", error: err });
     }
-}
-
-module.exports = {
-    download,
-    downloadLinks
 };
+  
+
+// module.exports = {
+//     download,
+//     downloadLinks
+// };
